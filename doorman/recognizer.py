@@ -29,5 +29,5 @@ class Recognizer(object):
       elif onFalse:
         onFalse()
 
-    Thread(group=None, target=check_and_callback).start()
+    threading.Thread(group=None, target=check_and_callback).start()
 
