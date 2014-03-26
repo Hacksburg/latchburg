@@ -1,11 +1,10 @@
 """Doorman daemon. Spawns a process that manages the latch."""
 import logging
+import daemon
 
-from daemon import DaemonContext
-
-from latchburg.doorman import actuator
-from latchburg.doorman.attempts import EntryAttemptInterface
-from latchburg.doorman.recognizer import Recognizer
+import actuator as actuator
+from attempts import EntryAttemptInterface
+from recognizer import Recognizer
 
 INTERVAL = 10 # seconds to hold latch open
 
@@ -20,6 +19,7 @@ def guard():
       break
 
     if ver.check(attempt):
+      print "unlocking."
       actuator.unlock(INTERVAL)
       logging.info('Allowed access for attempt: %s', attempt)
     else:
@@ -28,7 +28,7 @@ def guard():
 
 def main():
   """Daemonize"""
-  with DaemonContext():
+  with daemon.DaemonContext():
     guard()
 
 

@@ -5,7 +5,7 @@ import time
 
 import RPi.GPIO as GPIO
 
-LOCK_PIN = 6
+LOCK_PIN = 12
 LOCKLOCK = threading.RLock()
 
 
@@ -23,9 +23,11 @@ def unlock(open_period):
 
   def open_sesame():
     if LOCKLOCK.acquire(blocking=False):
-      GPIO.output(6, GPIO.HIGH)
+      print "lock acquired"
+      GPIO.output(LOCK_PIN, GPIO.HIGH)
       time.sleep(open_period)
-      GPIO.output(6, GPIO.LOW)
+      GPIO.output(LOCK_PIN, GPIO.LOW)
       LOCKLOCK.release()
+      print "lock released"
 
   threading.Thread(target=open_sesame).start()
