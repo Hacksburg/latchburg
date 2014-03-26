@@ -30,4 +30,3 @@ class Recognizer(object):
         onFalse()
 
     threading.Thread(group=None, target=check_and_callback).start()
-
