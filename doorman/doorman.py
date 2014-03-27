@@ -1,3 +1,5 @@
+#!/usr/bin/env python2.7
+
 """Doorman daemon. Spawns a process that manages the latch."""
 import logging
 import daemon
@@ -10,6 +12,10 @@ INTERVAL = 10 # seconds to hold latch open
 
 def guard():
   """Function to continually accept input and determine when to unlock door."""
+
+  LOGFORMAT = '%(asctime)-15s %(message)s'
+  logging.basicConfig(filename='latchburg.log', level=logging.DEBUG, format=LOGFORMAT)
+
   ver = Recognizer()
   interface = EntryAttemptInterface()
 
@@ -19,7 +25,6 @@ def guard():
       break
 
     if ver.check(attempt):
-      print "unlocking."
       actuator.unlock(INTERVAL)
       logging.info('Allowed access for attempt: %s', attempt)
     else:

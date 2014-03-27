@@ -23,11 +23,9 @@ def unlock(open_period):
 
   def open_sesame():
     if LOCKLOCK.acquire(blocking=False):
-      print "lock acquired"
       GPIO.output(LOCK_PIN, GPIO.HIGH)
       time.sleep(open_period)
       GPIO.output(LOCK_PIN, GPIO.LOW)
       LOCKLOCK.release()
-      print "lock released"
 
   threading.Thread(target=open_sesame).start()
