@@ -1,3 +1,5 @@
+"""Read in attempts from a keyboard-like magstripe reader."""
+
 from evdev import InputDevice, categorize, ecodes
 
 SCANCODES = {
@@ -19,10 +21,18 @@ CAPSCODES = {
     }
 
 class EntryAttemptInterface(object):
+  """Represents an input device"""
   def __init__(self, device_name="/dev/input/event0"):
     self.reader = InputDevice(device_name)
 
   def getAttempt(self):
+    """Block on getting one entry attempt"""
+
+    # Evdev code borrowed heavily from http://stackoverflow.com/a/19757397
+
+    # TODO: What do we do if we can't grab the reader? Can we ungrab it first?
+    # What do we do if some part of the reading fails? Ungrabbing should occur regardless,
+    # but how?
     self.reader.grab()
 
     caps = False
