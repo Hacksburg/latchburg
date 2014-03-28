@@ -21,7 +21,7 @@ environment containing python 2.7 and the libraries listed in requirements.txt.
 
 Specifically for our system, the contents of this repository are kept in
 /usr/lib/latchburg/latchburg, and the virtualenv is in /usr/lib/latchburg/env.
-The meet.py and doorman/doorman.py are called by scripts /usr/bin/meet and
-/usr/bin/doorman, respectively. There's a line in /etc/rc.local that calls
-/usr/bin/doorman on boot, so it should run automatically whenever the pi is
-rebooted.
+The meet.py and doorman/doorman.py scripts are more easily called by the bash
+scripts /usr/bin/meet and /usr/bin/doorman, respectively. There's a line in
+/etc/rc.local that calls /usr/bin/doorman on boot, so it should run
+automatically whenever the pi is rebooted.
