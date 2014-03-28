@@ -1,4 +1,6 @@
 RPi.GPIO==0.5.4
+argparse==1.2.1
 evdev==0.4.3
 lockfile==0.9.1
 python-daemon==1.6
+simplejson==3.3.3
