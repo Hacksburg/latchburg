@@ -1,4 +1,5 @@
 """Read in attempts from a keyboard-like magstripe reader."""
+import logging
 
 from evdev import InputDevice, categorize, ecodes
 

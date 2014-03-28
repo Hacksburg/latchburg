@@ -17,7 +17,7 @@ class Latch(object):
     GPIO.setup(lock_pin, GPIO.OUT)
     GPIO.output(lock_pin, GPIO.LOW)
 
-  def unlock(open_period):
+  def unlock(self, open_period):
     """Open the latch for `open_period` seconds.
 
     Doesn't block: Opens a thread to hold the latch open for the specified

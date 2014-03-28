@@ -15,11 +15,12 @@ class Recognizer(object):
 
     hasher = hashlib.sha512()
     hasher.update(input)
+    digest = hasher.hexdigest()
 
     # FileLock prevents others (other threads) from editing the file while we're reading it
     with FileLock(self.db_name):
       for line in open(self.db_name, "r"):
-        if line[:-1] == hasher.hexdigest():
-          return True
+        if line[:-1] == digest:
+          return digest
 
-    return False
+    return None

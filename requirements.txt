@@ -1,6 +1,18 @@
 RPi.GPIO==0.5.4
 argparse==1.2.1
-daemon==1.0
+configobj==4.7.2
+decorator==3.3.3
+## FIXME: could not find svn URL in dependency_links for this package:
+distribute==0.6.24dev-r0
 evdev==0.4.3
+ipython==0.13.1
 lockfile==0.9.1
+numpy==1.6.2
+pexpect==2.4
+pifacecommon==4.0.0
+pifacedigitalio==3.0.4
+pygame==1.9.1release
+python-daemon==1.6
+simplegeneric==0.8.1
+virtualenv==1.11.4
 wsgiref==0.1.2

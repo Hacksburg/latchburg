@@ -1,8 +1,9 @@
 #!/usr/bin/env python2.7
 
 """Doorman daemon. Spawns a process that manages the latch."""
-import logging
 import daemon # must be python-daemon, not daemon
+import lockfile
+import logging
 
 from actuator import Latch
 from attempts import EntryAttemptInterface
@@ -19,27 +20,37 @@ def guard():
   # TODO: How can we verify that this is running? Should it periodically call home?
 
   LOGFORMAT = '%(asctime)-15s %(message)s'
-  logging.basicConfig(filename='latchburg.log', level=logging.DEBUG, format=LOGFORMAT)
+  logging.basicConfig(filename='/var/log/latchburg.log', level=logging.DEBUG, format=LOGFORMAT)
 
   ver = Recognizer()
   interface = EntryAttemptInterface()
   latch = Latch()
 
   while True:
-    attempt = interface.getAttempt()
-    if attempt == None:
-      break
+    try:
+      attempt = interface.getAttempt()
+      if attempt == None:
+        break
 
-    if ver.check(attempt):
-      latch.unlock(INTERVAL)
-      logging.info('Allowed access for attempt: %s', attempt)
-    else:
-      logging.warning('Unauthorized attempt: %s', attempt)
+      result = ver.check(attempt)
+      if result != None:
+        latch.unlock(INTERVAL)
+        logging.info('Allowed access for attempt with digest %s', result)
+      else:
+        logging.warning('Unauthorized attempt: %s', attempt)
+    except Exception as inst:
+      logging.error(inst)
 
 
 def main():
   """Daemonize"""
-  with daemon.DaemonContext():
+  context = daemon.DaemonContext(
+      working_directory='/var/lib/latchburg',
+      pidfile=lockfile.FileLock('/var/run/latchburg.pid')
+      )
+
+  #TODO: Set up signal map
+  with context:
     guard()
 
 
