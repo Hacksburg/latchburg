@@ -32,11 +32,9 @@ class EntryAttemptInterface(object):
 
     # Evdev code borrowed heavily from http://stackoverflow.com/a/19757397
 
-    # TODO: What do we do if we can't grab the reader? Can we ungrab it first?
-    # What do we do if some part of the reading fails? Ungrabbing should occur regardless,
-    # but how?
-
-    # Wait until we can access the devicde
+    # Somewhat hacky way to allow for multiple loops to get consecutive attempts
+    # (added specifically for the meet script)
+    # The idea is just to wait until we can access the device
     grabbed = False
     while not grabbed:
       try:
