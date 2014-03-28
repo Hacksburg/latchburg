@@ -1,6 +1,6 @@
 # Latchburg #
 
-## Hacksburg door access system, for use with a Raspberry Pi ##
+#### Hacksburg door access system, for use with a Raspberry Pi ####
 
 As a condition of Hacksburg's lease, we were required to implement a
 door-access system using magstripe cards like those issued to students and
