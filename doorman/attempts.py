@@ -42,7 +42,7 @@ class EntryAttemptInterface(object):
       try:
         self.reader.grab()
         grabbed = True
-      except:
+      except IOError:
         time.sleep(0.1)
 
     caps = False
