@@ -24,22 +24,21 @@ def guard():
 
   ver = Recognizer()
   interface = EntryAttemptInterface()
-  latch = Latch()
+  with Latch() as latch:
+    while True:
+      try:
+        attempt = interface.getAttempt()
+        if attempt == None:
+          break
 
-  while True:
-    try:
-      attempt = interface.getAttempt()
-      if attempt == None:
-        break
-
-      result = ver.check(attempt)
-      if result != None:
-        latch.unlock(INTERVAL)
-        logging.info('Allowed access for attempt with digest %s', result)
-      else:
-        logging.warning('Unauthorized attempt: %s', attempt)
-    except Exception as inst:
-      logging.error(inst)
+        result = ver.check(attempt)
+        if result != None:
+          latch.unlock(INTERVAL)
+          logging.info('Allowed access for user %s', result)
+        else:
+          logging.warning('Unauthorized attempt: %s', attempt)
+      except Exception as inst:
+        logging.error(inst)
 
 
 def main():

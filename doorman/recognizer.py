@@ -1,5 +1,6 @@
 """Class to handle checking authorization and dispatching of events"""
 import hashlib
+import json
 import threading
 
 from lockfile import FileLock
@@ -17,10 +18,10 @@ class Recognizer(object):
     hasher.update(input)
     digest = hasher.hexdigest()
 
-    # FileLock prevents others (other threads) from editing the file while we're reading it
+    # FileLock prevents other threads from editing the file while we're reading it
     with FileLock(self.db_name):
-      for line in open(self.db_name, "r"):
-        if line[:-1] == digest:
-          return digest
+      data = json.loads(open(self.db_name, "r").read())
+      if digest in data.keys():
+        return data[digest]
 
     return None

@@ -1,5 +1,6 @@
 """Read in attempts from a keyboard-like magstripe reader."""
 import logging
+import time
 
 from evdev import InputDevice, categorize, ecodes
 
@@ -34,7 +35,15 @@ class EntryAttemptInterface(object):
     # TODO: What do we do if we can't grab the reader? Can we ungrab it first?
     # What do we do if some part of the reading fails? Ungrabbing should occur regardless,
     # but how?
-    self.reader.grab()
+
+    # Wait until we can access the devicde
+    grabbed = False
+    while not grabbed:
+      try:
+        self.reader.grab()
+        grabbed = True
+      except:
+        time.sleep(0.1)
 
     caps = False
     result = u''

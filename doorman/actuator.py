@@ -12,10 +12,15 @@ class Latch(object):
     self.lock_pin = lock_pin
     self.lock_lock = threading.RLock()
 
-
+  def __enter__(self):
     GPIO.setmode(GPIO.BOARD)
-    GPIO.setup(lock_pin, GPIO.OUT)
-    GPIO.output(lock_pin, GPIO.LOW)
+    GPIO.setup(self.lock_pin, GPIO.OUT)
+    GPIO.output(self.lock_pin, GPIO.LOW)
+    return self
+
+  def __exit__(self, type, value, traceback):
+    GPIO.output(self.lock_pin, GPIO.LOW)
+    GPIO.cleanup()
 
   def unlock(self, open_period):
     """Open the latch for `open_period` seconds.
@@ -33,3 +38,5 @@ class Latch(object):
         self.lock_lock.release()
 
     threading.Thread(target=open_sesame).start()
+
+
