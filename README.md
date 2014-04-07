@@ -25,3 +25,6 @@ The meet.py and doorman/doorman.py scripts are more easily called by the bash
 scripts /usr/bin/meet and /usr/bin/doorman, respectively. There's a line in
 /etc/rc.local that calls /usr/bin/doorman on boot, so it should run
 automatically whenever the pi is rebooted.
+
+This is the circuit as it's attached to the Raspberry Pi:
+<iframe width="725" height="448" src="http://123d.circuits.io/circuits/178281-hacksburg-latch/embed" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
