@@ -17,7 +17,7 @@ def main():
       return 1;
 
     print "Users:"
-    for user in data.values().sort():
+    for user in data.values():
         print user
 
     print
