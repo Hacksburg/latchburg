@@ -25,12 +25,10 @@ CAPSCODES = {
 class EntryAttemptInterface(object):
   """Represents an input device"""
   def __init__(self, device_name="/dev/input/event0"):
-    self.reader = InputDevice(device_name)
+    self.name = device_name
 
-  def getAttempt(self):
-    """Block on getting one entry attempt"""
-
-    # Evdev code borrowed heavily from http://stackoverflow.com/a/19757397
+  def __enter__(self):
+    self.reader = InputDevice(self.name)
 
     # Somewhat hacky way to allow for multiple loops to get consecutive attempts
     # (added specifically for the meet script)
@@ -42,6 +40,17 @@ class EntryAttemptInterface(object):
         grabbed = True
       except IOError:
         time.sleep(0.1)
+    
+    return self
+
+  def __exit__(self, type, value, traceback):
+    self.reader.ungrab()
+
+
+  def getAttempt(self):
+    """Block on getting one entry attempt"""
+
+    # Evdev code borrowed heavily from http://stackoverflow.com/a/19757397
 
     caps = False
     result = u''
@@ -64,8 +73,6 @@ class EntryAttemptInterface(object):
           key_lookup = ((CAPSCODES if caps else SCANCODES).get(data.scancode)
               or u'UNKNOWN:[{}]'.format(data.scancode))
           result += key_lookup
-
-    self.reader.ungrab()
 
     return result
 
