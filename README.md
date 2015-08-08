@@ -27,4 +27,5 @@ scripts /usr/bin/meet and /usr/bin/doorman, respectively. There's a line in
 automatically whenever the pi is rebooted.
 
 This is the circuit as it's attached to the Raspberry Pi:
-<iframe width="725" height="448" src="http://123d.circuits.io/circuits/178281-hacksburg-latch/embed" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
+[![The circuit](circuit.png)][embed]
+[embed]: http://123d.circuits.io/circuits/178281-hacksburg-latch/embed
